@@ -5,12 +5,20 @@ import {
   useCallback,
 } from 'react';
 
+import { InputProps as HTMLInputProps } from 'react-html-props';
+
 import { useField } from '@unform/core';
 
 import { Container } from './styles';
+import { IconType } from 'react-icons';
 
-const Input = ({ name, icon: Icon, ...rest }) => {
-  const inputRef = useRef(null);
+interface InputProps extends HTMLInputProps {
+  icon?: IconType;
+}
+
+export function Input({ name, icon: Icon, ...rest }: InputProps) {
+  name = name ?? "";
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -40,14 +48,12 @@ const Input = ({ name, icon: Icon, ...rest }) => {
       {Icon && <Icon size={20} />}
 
       <input
+        ref={inputRef}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
-        ref={inputRef}
         {...rest}
-      />
+        />
     </Container>
   );
 };
-
-export default Input;
