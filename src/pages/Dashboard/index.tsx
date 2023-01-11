@@ -16,8 +16,8 @@ export function Dashboard() {
 
   useEffect(() => {
     async function loadFoods() {
-      const response = await api.get<FoodData[]>("/foods");
-      setFoods(response.data);
+      const response = await api.get("/foods");
+      setFoods(response.data.foods);
     }
 
     loadFoods();
@@ -25,7 +25,7 @@ export function Dashboard() {
 
   async function handleAddFood(food: FoodData) {
     try {
-      const response = await api.post<FoodData>('/foods', {
+      const response = await api.post('/foods', {
         ...food,
         available: true,
       });
@@ -38,9 +38,9 @@ export function Dashboard() {
 
   async function handleUpdateFood(food: FoodData) {
     try {
-      const foodUpdated = await api.put<FoodData>(
+      const foodUpdated = await api.put(
         `/foods/${editingFood!.id}`,
-        { ...editingFood, ...food },
+        { ...food },
       );
 
       const foodsUpdated = foods.map(f =>
